@@ -4,10 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-# Firebase setup
-cred = credentials.Certificate("firebase-creds.json")
+firebase_creds = json.loads(os.environ["FIREBASE_CREDS"])
+cred = credentials.Certificate(firebase_creds)
 firebase_admin.initialize_app(cred)
-db = firestore.client()
 
 app = FastAPI()
 
