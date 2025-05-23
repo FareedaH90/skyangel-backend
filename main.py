@@ -1,5 +1,5 @@
 
-fimport os, json, base64
+import os, json, base64
 from fastapi import FastAPI
 import firebase_admin
 from firebase_admin import credentials, firestore
