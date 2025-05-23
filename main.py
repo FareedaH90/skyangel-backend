@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import firebase_admin
 from firebase_admin import credentials, firestore
+import json
 
 firebase_creds = json.loads(os.environ["FIREBASE_CREDS"])
 cred = credentials.Certificate(firebase_creds)
