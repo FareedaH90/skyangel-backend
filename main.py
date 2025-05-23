@@ -3,6 +3,8 @@ import os, json, base64
 from fastapi import FastAPI
 import firebase_admin
 from firebase_admin import credentials, firestore
+from fastapi.middleware.cors import CORSMiddleware
+
 
 # Decode base64 and parse the credentials
 firebase_creds = json.loads(base64.b64decode(os.environ["FIREBASE_CREDS_B64"]).decode())
