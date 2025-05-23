@@ -29,8 +29,14 @@ def root():
 # Get seat info by PNR
 @app.get("/get_seat")
 def get_seat(pnr: str):
+    print(f"🕵️ Trying to retrieve passenger with PNR: {pnr}")
     doc = db.collection("passengers").document(pnr).get()
+    if doc.exists:
+        print("✅ Passenger found")
+    else:
+        print("❌ Passenger NOT found")
     return doc.to_dict() if doc.exists else {"error": "PNR not found"}
+
 
 # Assign seat to passenger
 @app.post("/assign_seat")
