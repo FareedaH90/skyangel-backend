@@ -26,12 +26,19 @@ app.add_middleware(
 def root():
     return {"message": "SkyAngel backend is live and ready!"}
 
-@app.get("/get_seat")
-def get_seat(pnr: str):
-    # Normalize spacing: turn "P N R 0 0 5" → "PNR005"
+from fastapi import Request
+
+@app.post("/get_seat")
+async def get_seat(request: Request):
+    data = await request.json()
+    pnr = data.get("pnr", "")
+    
+    # Normalize: remove spaces and uppercase it
     pnr = "".join(pnr.upper().split())
+
     print(f"🕵️ Trying to retrieve passenger with PNR: {pnr}")
     doc = db.collection("passengers").document(pnr).get()
+
     if doc.exists:
         return {
             "status": "success",
