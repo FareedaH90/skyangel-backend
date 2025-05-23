@@ -43,11 +43,13 @@ def get_seat(pnr: str):
 # Assign seat to passenger
 @app.post("/assign_seat")
 def assign_seat(pnr: str, seat: str):
+    pnr = pnr.upper()
     db.collection("passengers").document(pnr).update({"seat": seat})
     return {"status": "Seat updated", "pnr": pnr, "seat": seat}
 
 # Assign meal to passenger
 @app.post("/assign_meal")
+pnr = pnr.upper()
 def assign_meal(pnr: str, meal_type: str):
     doc_ref = db.collection("meals").document(f"{pnr}_{meal_type}")
     doc_ref.set({
