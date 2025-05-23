@@ -28,15 +28,21 @@ def root():
 
 @app.get("/get_seat")
 def get_seat(pnr: str):
-    pnr = pnr.upper()  # Normalize
+    pnr = pnr.upper()
     print(f"🕵️ Trying to retrieve passenger with PNR: {pnr}")
     doc = db.collection("passengers").document(pnr).get()
     if doc.exists:
         print("✅ Passenger found")
-        return doc.to_dict()
+        return {
+            "status": "success",
+            "passenger": doc.to_dict()
+        }
     else:
         print("❌ Passenger NOT found")
-        return {"error": "PNR not found"}
+        return {
+            "status": "error",
+            "message": "PNR not found"
+        }
 
 
 
