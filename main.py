@@ -25,6 +25,11 @@ app.add_middleware(
 )
 
 
+@app.head("/")
+def healthcheck():
+    # Render (and other clients) can now do HEAD / and get a 200
+    return Response(status_code=200)
+
 # Root endpoint for sanity check
 @app.get("/")
 def root():
