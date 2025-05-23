@@ -26,16 +26,18 @@ app.add_middleware(
 def root():
     return {"message": "SkyAngel backend is live and ready!"}
 
-# Get seat info by PNR
 @app.get("/get_seat")
 def get_seat(pnr: str):
+    pnr = pnr.upper()  # Normalize
     print(f"🕵️ Trying to retrieve passenger with PNR: {pnr}")
     doc = db.collection("passengers").document(pnr).get()
     if doc.exists:
         print("✅ Passenger found")
+        return doc.to_dict()
     else:
         print("❌ Passenger NOT found")
-    return doc.to_dict() if doc.exists else {"error": "PNR not found"}
+        return {"error": "PNR not found"}
+
 
 
 # Assign seat to passenger
