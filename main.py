@@ -5,6 +5,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from fastapi import Request
 from fastapi import FastAPI, Body
+from fastapi import Response
 
 # Decode Firebase credentials from base64 environment variable
 firebase_creds = json.loads(base64.b64decode(os.environ["FIREBASE_CREDS_B64"]).decode())
