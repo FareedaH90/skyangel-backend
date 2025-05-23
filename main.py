@@ -49,8 +49,8 @@ def assign_seat(pnr: str, seat: str):
 
 # Assign meal to passenger
 @app.post("/assign_meal")
-pnr = pnr.upper()
 def assign_meal(pnr: str, meal_type: str):
+    pnr = pnr.upper()
     doc_ref = db.collection("meals").document(f"{pnr}_{meal_type}")
     doc_ref.set({
         "pnr": pnr,
