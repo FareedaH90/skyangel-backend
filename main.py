@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os, json, base64
 import firebase_admin
 from firebase_admin import credentials, firestore
+from fastapi import Request
 
 # Decode Firebase credentials from base64 environment variable
 firebase_creds = json.loads(base64.b64decode(os.environ["FIREBASE_CREDS_B64"]).decode())
@@ -14,27 +15,29 @@ db = firestore.client()
 app = FastAPI()
 
 # Enable CORS for all origins (optional, adjust if needed)
+# CORS (for testing)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],    # widen for dev; lock down in prod
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # Root endpoint for sanity check
 @app.get("/")
 def root():
     return {"message": "SkyAngel backend is live and ready!"}
 
-from fastapi import Request
+
 
 @app.post("/get_seat")
-async def get_seat(request: Request):
-    data = await request.json()
-    pnr = data.get("pnr", "")
-    
-    # Normalize: remove spaces and uppercase it
-    pnr = "".join(pnr.upper().split())
+def get_seat(payload: dict = Body(...)):
+    # Pull the raw PNR value out of the JSON body
+    raw_pnr = payload.get("pnr", "")
+    # Normalize: strip spaces & uppercase
+    pnr = "".join(raw_pnr.split()).upper()
 
     print(f"🕵️ Trying to retrieve passenger with PNR: {pnr}")
     doc = db.collection("passengers").document(pnr).get()
@@ -49,7 +52,6 @@ async def get_seat(request: Request):
             "status": "error",
             "message": "PNR not found"
         }
-
 
 
 # Assign seat to passenger
