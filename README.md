@@ -1,5 +1,5 @@
 
-# SkyAngel Backend
+# SkyAngel Vapi Voice Agent
 
 A FastAPI + Firebase backend for SkyAngel — a voice-enabled airline assistant.
 Includes endpoints for seat assignment, flight status, and meal selection.
