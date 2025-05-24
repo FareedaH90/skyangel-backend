@@ -209,3 +209,6 @@ def seed_data():
         db.collection(collection).document(doc_id).set(doc["data"])
     return {"status": " Seed data uploaded successfully"}
 
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8080)
