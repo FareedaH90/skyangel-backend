@@ -1,7 +1,12 @@
 {
-  "name": "SkyAngel Backend",
+  "name": "skyangel-backend",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
-  "postCreateCommand": "pip install -r requirements.txt",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    }
+  },
+  "postCreateCommand": "pip install -r requirements.txt && npm install -g firebase-tools",
   "customizations": {
     "vscode": {
       "extensions": [
